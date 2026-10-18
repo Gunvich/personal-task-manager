@@ -112,11 +112,29 @@
                                 @endif
                             </div>
 
-                            @if ($task->is_completed)
-                                <span class="badge text-bg-success">Выполнена</span>
-                            @else
-                                <span class="badge text-bg-warning">В процессе</span>
-                            @endif
+                            <div class="d-flex flex-column align-items-end gap-2">
+                                @if ($task->is_completed)
+                                    <span class="badge text-bg-success">Выполнена</span>
+                                @else
+                                    <span class="badge text-bg-warning">В процессе</span>
+                                @endif
+
+                                <a
+                                    href="{{ route('tasks.edit', $task) }}"
+                                    class="btn btn-sm btn-outline-primary"
+                                >
+                                    Редактировать
+                                </a>
+
+                                <form action="{{ route('tasks.toggle', $task) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                        {{ $task->is_completed ? 'Вернуть в работу' : 'Завершить' }}
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
