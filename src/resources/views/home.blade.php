@@ -13,15 +13,39 @@
                 </p>
             </div>
 
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <h2 class="h5">Добро пожаловать!</h2>
+            @forelse ($tasks as $task)
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <h2 class="h5 mb-2">
+                                    {{ $task->title }}
+                                </h2>
 
-                    <p class="mb-0">
-                        Здесь появится список твоих задач.
-                    </p>
+                                @if ($task->description)
+                                    <p class="text-secondary mb-2">
+                                        {{ $task->description }}
+                                    </p>
+                                @endif
+                            </div>
+
+                            @if ($task->is_completed)
+                                <span class="badge text-bg-success">
+                                    Выполнена
+                                </span>
+                            @else
+                                <span class="badge text-bg-warning">
+                                    В процессе
+                                </span>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @empty
+                <div class="alert alert-info">
+                    Пока задач нет. Скоро здесь появится возможность добавить первую!
+                </div>
+            @endforelse
 
         </div>
     </div>
