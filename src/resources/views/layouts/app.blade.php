@@ -13,13 +13,7 @@
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            Personal Task Manager
-        </a>
-    </div>
-</nav>
+@include('layouts.partials.header')
 
 <main class="container py-5">
     @yield('content')
