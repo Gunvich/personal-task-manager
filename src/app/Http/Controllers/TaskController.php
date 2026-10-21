@@ -9,11 +9,20 @@ use Illuminate\View\View;
 
 class TaskController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $tasks = Task::latest()->get();
+        $query = Task::query();
 
-        return view('home', compact('tasks'));
+        if ($request->query('status') === 'active') {
+            $query->where('is_completed', false);
+        } elseif ($request->query('status') === 'completed') {
+            $query->where('is_completed', true);
+        }
+
+        $tasks = $query->latest()->get();
+        $status = $request->query('status', 'all');
+
+        return view('home', compact('tasks', 'status'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -60,5 +69,14 @@ class TaskController extends Controller
         return redirect()
             ->route('tasks.index')
             ->with('success', 'Статус задачи изменён!');
+    }
+
+    public function destroy(Task $task): RedirectResponse
+    {
+        $task->delete();
+
+        return redirect()
+            ->route('tasks.index')
+            ->with('success', 'Задача удалена!');
     }
 }

@@ -91,7 +91,28 @@
             </div>
 
             <h2 class="h4 mb-3">Список задач</h2>
+            <div class="d-flex flex-wrap gap-2 mb-4">
+                <a
+                    href="{{ route('tasks.index') }}"
+                    class="btn {{ $status === 'all' ? 'btn-primary' : 'btn-outline-primary' }}"
+                >
+                    Все
+                </a>
 
+                <a
+                    href="{{ route('tasks.index', ['status' => 'active']) }}"
+                    class="btn {{ $status === 'active' ? 'btn-primary' : 'btn-outline-primary' }}"
+                >
+                    В процессе
+                </a>
+
+                <a
+                    href="{{ route('tasks.index', ['status' => 'completed']) }}"
+                    class="btn {{ $status === 'completed' ? 'btn-primary' : 'btn-outline-primary' }}"
+                >
+                    Выполненные
+                </a>
+            </div>
             @forelse ($tasks as $task)
                 <div class="card shadow-sm border-0 mb-3">
                     <div class="card-body p-4">
@@ -134,6 +155,18 @@
                                         {{ $task->is_completed ? 'Вернуть в работу' : 'Завершить' }}
                                     </button>
                                 </form>
+                                    <form
+                                        action="{{ route('tasks.destroy', $task) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Точно удалить эту задачу?')"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            Удалить
+                                        </button>
+                                    </form>
                             </div>
                         </div>
                     </div>

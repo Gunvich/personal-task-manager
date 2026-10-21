@@ -17,3 +17,6 @@ Route::put('/tasks/{task}', [TaskController::class, 'update'])
 
 Route::patch('/tasks/{task}/toggle-complete', [TaskController::class, 'toggleComplete'])
     ->name('tasks.toggle');
+
+Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])
+    ->name('tasks.destroy');
